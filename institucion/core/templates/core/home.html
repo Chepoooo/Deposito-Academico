@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<h2>Material académico reciente</h2>
+
+<div class="list-group">
+    {% for material in materiales %}
+        <a href="{{ material.archivo_pdf.url }}" class="list-group-item list-group-item-action">
+            {{ material.titulo }} – {{ material.autor }}
+        </a>
+    {% empty %}
+        <p>No hay materiales aún.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<h2>Resumen de proyectos</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Año</th>
+            <th>Archivo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for material in materiales %}
+        <tr>
+            <td>{{ material.titulo }}</td>
+            <td>{{ material.autor }}</td>
+            <td>{{ material.anio }}</td>
+            <td>
+                <a href="{{ material.archivo_pdf.url }}" target="_blank">Ver PDF</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<h2>Programas Postgrados</h2>
+
+<ul class="list-group">
+    {% for programa in programas %}
+        <li class="list-group-item">
+            <a href="{% url 'materiales' programa.id %}">
+                {{ programa.nombre }} ({{ programa.tipo }})
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

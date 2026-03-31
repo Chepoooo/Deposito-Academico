@@ -1,0 +1,80 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<h2>Consulta de  Proyectos inscritos</h2>
+
+<form method="get" class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <input type="text" name="q" class="form-control"
+               placeholder="Buscar por título o autor"
+               value="{{ query }}">
+    </div>
+
+    <div class="col-md-3">
+        <select name="carrera" class="form-select">
+            <option value="">Todas las carreras</option>
+            {% for carrera in carreras %}
+                <option value="{{ carrera.id }}">{{ carrera.nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select name="programa" class="form-select">
+            <option value="">Todos los programas</option>
+            {% for programa in programas %}
+                <option value="{{ programa.id }}">
+                    {{ programa.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <input type="number" name="anio" class="form-control"
+               placeholder="Año">
+    </div>
+
+    <div class="col-12">
+        <button class="btn btn-primary">Buscar</button>
+    </div>
+
+</form>
+
+<hr>
+
+<h4>Resultados</h4>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Programa</th>
+            <th>Año</th>
+            <th>Archivo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for material in materiales %}
+        <tr>
+            <td>{{ material.titulo }}</td>
+            <td>{{ material.autor }}</td>
+            <td>{{ material.programa.nombre }}</td>
+            <td>{{ material.anio }}</td>
+            <td>
+                <a href="{{ material.archivo_pdf.url }}" target="_blank">
+                    Ver PDF
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No se encontraron resultados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

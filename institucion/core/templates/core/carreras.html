@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<h2>Carreras</h2>
+
+<ul class="list-group">
+    {% for carrera in carreras %}
+        <li class="list-group-item">
+            <a href="{% url 'programas' carrera.id %}">
+                {{ carrera.nombre }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
