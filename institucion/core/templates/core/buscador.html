@@ -1,80 +1,191 @@
 {% extends 'core/base.html' %}
 {% block content %}
 
-<h2>Consulta de  Proyectos inscritos</h2>
+<h2 class="mb-4 section-title">Consulta de Proyectos</h2>
 
 <form method="get" class="row g-3 mb-4">
 
+    <!-- 🔍 BUSCADOR -->
     <div class="col-md-4">
         <input type="text" name="q" class="form-control"
-               placeholder="Buscar por título o autor"
+               placeholder="Buscar por título, autor o palabras clave"
                value="{{ query }}">
     </div>
 
-    <div class="col-md-3">
-        <select name="carrera" class="form-select">
-            <option value="">Todas las carreras</option>
-            {% for carrera in carreras %}
-                <option value="{{ carrera.id }}">{{ carrera.nombre }}</option>
-            {% endfor %}
-        </select>
-    </div>
-
+    <!-- 🎓 PROGRAMA -->
     <div class="col-md-3">
         <select name="programa" class="form-select">
             <option value="">Todos los programas</option>
             {% for programa in programas %}
-                <option value="{{ programa.id }}">
+                <option value="{{ programa.id }}"
+                    {% if programa.id|stringformat:"s" == selected_programa %}selected{% endif %}>
                     {{ programa.nombre }}
                 </option>
             {% endfor %}
         </select>
     </div>
 
+    <!-- 🧠 BUSCADOR INTELIGENTE -->
     <div class="col-md-2">
-        <input type="number" name="anio" class="form-control"
-               placeholder="Año">
+        <input type="text" name="posgrado" class="form-control"
+               placeholder="Ej: Area,Linea"
+               value="{{ selected_posgrado }}">
     </div>
 
-    <div class="col-12">
-        <button class="btn btn-primary">Buscar</button>
+    <!-- 📅 AÑO -->
+    <div class="col-md-2">
+        <input type="number" name="anio" class="form-control"
+               placeholder="Año"
+               value="{{ selected_anio }}">
+    </div>
+
+    <!-- 🔘 BOTÓN -->
+    <div class="col-md-1">
+        <button class="btn btn-main w-100">🔍</button>
     </div>
 
 </form>
 
+<!-- 🔽 ORDENAMIENTO -->
+<div class="d-flex justify-content-end mb-3">
+    <form method="get">
+
+        <input type="hidden" name="q" value="{{ query }}">
+        <input type="hidden" name="programa" value="{{ selected_programa|default:'' }}">
+        <input type="hidden" name="posgrado" value="{{ selected_posgrado|default:'' }}">
+        <input type="hidden" name="anio" value="{{ selected_anio|default:'' }}">
+
+        <select name="orden" class="form-select" onchange="this.form.submit()">
+
+            <option value="">Ordenar por</option>
+
+            <option value="anio_desc" {% if orden == 'anio_desc' %}selected{% endif %}>
+                Año (más reciente)
+            </option>
+
+            <option value="anio_asc" {% if orden == 'anio_asc' %}selected{% endif %}>
+                Año (más antiguo)
+            </option>
+
+            <option value="autor" {% if orden == 'autor' %}selected{% endif %}>
+                Autor (A-Z)
+            </option>
+
+            <option value="titulo" {% if orden == 'titulo' %}selected{% endif %}>
+                Título (A-Z)
+            </option>
+
+        </select>
+
+    </form>
+</div>
+
 <hr>
 
-<h4>Resultados</h4>
+<h5 class="mb-3">
+    Mostrando {{ page_obj.paginator.count }} resultados
+</h5>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Título</th>
-            <th>Autor</th>
-            <th>Programa</th>
-            <th>Año</th>
-            <th>Archivo</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for material in materiales %}
-        <tr>
-            <td>{{ material.titulo }}</td>
-            <td>{{ material.autor }}</td>
-            <td>{{ material.programa.nombre }}</td>
-            <td>{{ material.anio }}</td>
-            <td>
-                <a href="{{ material.archivo_pdf.url }}" target="_blank">
-                    Ver PDF
-                </a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5">No se encontraron resultados.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<!-- 📄 RESULTADOS -->
+{% for material in materiales %}
+<div class="card mb-4 shadow-sm border-0">
+
+    <div class="card-body">
+
+        <h5 class="text-primary">
+            
+                {{ material.titulo }}
+            
+        </h5>
+
+        <p>
+            <strong>Autor:</strong> {{ material.autor }} |
+            <strong>Año:</strong> {{ material.anio }}
+        </p>
+
+        <p><strong>Programa:</strong> {{ material.programa.nombre }}</p>
+        <p><strong>Área:</strong> {{ material.area_conocimiento }}</p>
+        <p><strong>Línea de Investigación:</strong> {{ material.linea_investigacion }}</p>
+
+        <p class="text-muted">
+            {{ material.resumen|truncatewords:25 }}
+        </p>
+        <p>
+    <strong>Palabras clave:</strong> 
+    <span class="text-secondary">{{ material.palabras_clave }}</span>
+    </p>
+
+        <a href="{{ material.archivo_pdf.url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+            Ver documento
+        </a>
+
+    </div>
+
+</div>
+{% empty %}
+<p>No se encontraron resultados.</p>
+{% endfor %}
+
+<!-- 📄 PAGINACIÓN -->
+<nav aria-label="Paginación">
+    <ul class="pagination justify-content-center">
+
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link"
+               href="?page=1&q={{ query }}&programa={{ selected_programa }}&posgrado={{ selected_posgrado }}&anio={{ selected_anio }}&orden={{ orden }}">
+               Primero
+            </a>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link"
+               href="?page={{ page_obj.previous_page_number }}&q={{ query }}&programa={{ selected_programa }}&posgrado={{ selected_posgrado }}&anio={{ selected_anio }}&orden={{ orden }}">
+               Anterior
+            </a>
+        </li>
+        {% endif %}
+
+        <li class="page-item active">
+            <span class="page-link">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+            </span>
+        </li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link"
+               href="?page={{ page_obj.next_page_number }}&q={{ query }}&programa={{ selected_programa }}&posgrado={{ selected_posgrado }}&anio={{ selected_anio }}&orden={{ orden }}">
+               Siguiente
+            </a>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link"
+               href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}&programa={{ selected_programa }}&posgrado={{ selected_posgrado }}&anio={{ selected_anio }}&orden={{ orden }}">
+               Último
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+
+<style>
+.section-title {
+    color: #1e3a8a;
+    font-weight: bold;
+}
+
+.btn-main {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+}
+
+.btn-main:hover {
+    background-color: #1d4ed8;
+}
+</style>
 
 {% endblock %}

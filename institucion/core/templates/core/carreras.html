@@ -1,16 +1,88 @@
 {% extends 'core/base.html' %}
 {% block content %}
 
-<h2>Carreras</h2>
+<h2 class="mb-5 text-center section-title">Programas Académicos</h2>
 
-<ul class="list-group">
-    {% for carrera in carreras %}
-        <li class="list-group-item">
-            <a href="{% url 'programas' carrera.id %}">
-                {{ carrera.nombre }}
-            </a>
-        </li>
-    {% endfor %}
-</ul>
+<div class="container">
+
+    <div class="row">
+
+        {% for carrera in carreras %}
+        <div class="col-md-4 mb-4">
+
+            <div class="card carrera-card h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="icon mb-3">
+                        🎓
+                    </div>
+
+                    <h5 class="card-title mb-3">
+                        {{ carrera.nombre }}
+                    </h5>
+
+                    <a href="{% url 'programas' carrera.id %}" class="btn btn-main">
+                        Ver programas
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<style>
+
+/* TÍTULO */
+.section-title {
+    color: #1e3a8a;
+    font-weight: bold;
+}
+
+/* CARD */
+.carrera-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+/* HOVER */
+.carrera-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* ICONO */
+.icon {
+    font-size: 40px;
+}
+
+/* BOTÓN */
+.btn-main {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.btn-main:hover {
+    background-color: #1d4ed8;
+}
+
+/* TEXTO */
+.card-title {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+</style>
 
 {% endblock %}

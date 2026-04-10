@@ -1,16 +1,125 @@
 {% extends 'core/base.html' %}
 {% block content %}
 
-<h2>Programas Postgrados</h2>
+<!-- 🔗 BREADCRUMB -->
+<nav aria-label="breadcrumb" class="mb-4">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">Inicio</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{% url 'carreras' %}">Carreras</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+        {{ carrera.nombre }}
+    </li>
+  </ol>
+</nav>
 
-<ul class="list-group">
-    {% for programa in programas %}
-        <li class="list-group-item">
-            <a href="{% url 'materiales' programa.id %}">
-                {{ programa.nombre }} ({{ programa.tipo }})
-            </a>
-        </li>
-    {% endfor %}
-</ul>
+<!-- 🧠 TÍTULO -->
+<h2 class="mb-5 text-center section-title">
+    {{ carrera.nombre }}
+</h2>
+
+<div class="container">
+
+    <div class="row">
+
+        {% for programa in programas %}
+        <div class="col-md-4 mb-4">
+
+            <div class="card programa-card h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="icon mb-3">
+                        📘
+                    </div>
+
+                    <h5 class="card-title mb-3">
+                        {{ programa.nombre }}
+                    </h5>
+
+                    <p class="text-muted">
+                        Consulta los trabajos académicos asociados a este programa.
+                    </p>
+
+                    <a href="{% url 'buscador' %}?programa={{ programa.id }}" 
+                       class="btn btn-main">
+                        Ver materiales
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<style>
+
+/* TÍTULO */
+.section-title {
+    color: #1e3a8a;
+    font-weight: bold;
+}
+
+/* BREADCRUMB */
+.breadcrumb a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+/* CARD */
+.programa-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+/* HOVER */
+.programa-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* ICONO */
+.icon {
+    font-size: 40px;
+}
+
+/* BOTÓN */
+.btn-main {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.btn-main:hover {
+    background-color: #1d4ed8;
+}
+
+/* TEXTO */
+.card-title {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.text-muted {
+    color: #64748b !important;
+}
+
+</style>
 
 {% endblock %}

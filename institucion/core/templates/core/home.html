@@ -1,16 +1,143 @@
 {% extends 'core/base.html' %}
+{% load static %}
+
 {% block content %}
 
-<h2>Material académico reciente</h2>
+<style>
+body {
+    background-color: #ffffff;
+    color: #1e293b;
+}
 
-<div class="list-group">
-    {% for material in materiales %}
-        <a href="{{ material.archivo_pdf.url }}" class="list-group-item list-group-item-action">
-            {{ material.titulo }} – {{ material.autor }}
-        </a>
-    {% empty %}
-        <p>No hay materiales aún.</p>
-    {% endfor %}
+/* HERO */
+.hero {
+    padding: 80px 20px;
+    text-align: center;
+    background: linear-gradient(to right, #e0f2fe, #ffffff);
+}
+
+.hero img {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-weight: 700;
+    color: #1e3a8a;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #475569;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* BOTÓN */
+.btn-main {
+    background-color: #2563eb;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.btn-main:hover {
+    background-color: #1d4ed8;
+}
+
+/* SECCIÓN INFO */
+.section {
+    padding: 60px 20px;
+}
+
+.card-info {
+    border: none;
+    border-radius: 12px;
+    padding: 25px;
+    background: #f8fafc;
+    transition: 0.3s;
+}
+
+.card-info:hover {
+    transform: translateY(-5px);
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #1e3a8a;
+    font-weight: bold;
+}
+
+/* FOOTER */
+footer {
+    background-color: #f1f5f9;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: #475569;
+}
+</style>
+
+<!-- HERO -->
+<div class="hero">
+
+    <img src="{% static 'images/logo.png' %}" alt="Logo">
+
+    <h1>Repositorio Académico Institucional</h1>
+
+    <p>
+        Diseño e Implementación de Base de Datos para la gestión de
+información de los proyectos de investigación del Programa
+
+Posgrado de la UNERMB.
+    </p>
+
+    <a href="{% url 'buscador' %}" class="btn btn-main text-white">
+        🔍 Consultar proyectos
+    </a>
+
 </div>
+
+<!-- INFORMACIÓN -->
+<div class="section">
+    <div class="container">
+
+        <h2 class="section-title">¿Qué ofrece esta plataforma?</h2>
+
+        <div class="row">
+
+            <div class="col-md-4 mb-4">
+                <div class="card-info text-center">
+                    <h5>📚 Acceso a tesis</h5>
+                    <p>Consulta trabajos académicos organizados por programas y áreas de conocimiento.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card-info text-center">
+                    <h5>🔎 Búsqueda avanzada</h5>
+                    <p>Encuentra información mediante filtros por autor, año, palabras clave y más.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card-info text-center">
+                    <h5>🎓 Organización académica</h5>
+                    <p>Explora contenidos por carreras, programas y líneas de investigación.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>© UNERMB Todos los derechos reservados</p>
+</footer>
 
 {% endblock %}

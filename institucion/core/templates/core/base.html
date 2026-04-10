@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,19 +8,42 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
     <div class="container">
 
-        <a class="navbar-brand" href="{% url 'home' %}">Unermb</a>
+        <!-- LOGO + NOMBRE -->
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Logo" width="40" height="40" class="me-2">
+            <span class="fw-bold">UNERMB</span>
+        </a>
 
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'carreras' %}">Carreras</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'buscador' %}">Buscar</a>
-            </li>
-        </ul>
+        <!-- BOTÓN MOBILE -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- LINKS -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav ms-auto align-items-center">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Inicio</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'carreras' %}">Carreras</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link btn btn-danger text-white ms-2 px-3" href="{% url 'buscador' %}">
+                        🔍 Buscar
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
 
     </div>
 </nav>
