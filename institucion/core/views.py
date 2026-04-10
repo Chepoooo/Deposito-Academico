@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Q
-from academico.models import Carrera, Programa
-from materiales.models import Material
+from institucion.academico.models import Carrera, Programa
+from institucion.materiales.models import Material
 from django.shortcuts import get_object_or_404
 
 from django.core.paginator import Paginator
