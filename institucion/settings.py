@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-@bs(!r+vc3)d3r-+0=jn*o2q0zwp8-vu2+uu2(u2n+e@0@_)c2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["deposito-academico-production.up.railway.app"]
 
 
 # Application definition
@@ -118,6 +118,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://deposito-academico-production.up.railway.app"
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
